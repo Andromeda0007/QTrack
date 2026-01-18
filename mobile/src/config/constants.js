@@ -62,4 +62,3 @@ export const STATUS_COLORS = {
   [MATERIAL_STATUS.DISPENSED]: COLORS.gray,
 };
 
-

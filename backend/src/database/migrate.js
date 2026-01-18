@@ -7,7 +7,7 @@ async function migrate() {
     console.log("🔄 Running database migrations...");
 
     // Read schema file
-    const schemaPath = path.join(__dirname, "../../database/schema.sql");
+    const schemaPath = path.join(__dirname, "../../../database/schema.sql");
     const schema = fs.readFileSync(schemaPath, "utf8");
 
     // Execute schema
@@ -15,7 +15,7 @@ async function migrate() {
     console.log("✅ Database schema created successfully");
 
     // Read seed file
-    const seedPath = path.join(__dirname, "../../database/seed.sql");
+    const seedPath = path.join(__dirname, "../../../database/seed.sql");
     if (fs.existsSync(seedPath)) {
       const seed = fs.readFileSync(seedPath, "utf8");
       await pool.query(seed);
@@ -31,5 +31,4 @@ async function migrate() {
 }
 
 migrate();
-
 

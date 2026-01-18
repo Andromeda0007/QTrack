@@ -277,4 +277,3 @@ const materialSlice = createSlice({
 export const { clearCurrentMaterial, clearError } = materialSlice.actions;
 export default materialSlice.reducer;
 
-

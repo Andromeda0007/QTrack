@@ -1732,4 +1732,3 @@ ORDER BY mean_exec_time DESC;
 
 This technical guide provides a comprehensive overview of implementing, deploying, and maintaining the QTrack system. For specific implementation details, refer to the code comments and API documentation.
 
-
