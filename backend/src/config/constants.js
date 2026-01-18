@@ -1,0 +1,71 @@
+// Material Status Constants
+const MATERIAL_STATUS = {
+  QUARANTINE: "QUARANTINE",
+  UNDER_TEST: "UNDER_TEST",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
+  DISPENSED: "DISPENSED",
+};
+
+// Action Types
+const ACTION_TYPE = {
+  CREATED: "CREATED",
+  SAMPLING: "SAMPLING",
+  APPROVAL: "APPROVAL",
+  REJECTION: "REJECTION",
+  DISPENSING: "DISPENSING",
+  COMMENT: "COMMENT",
+  RACK_UPDATE: "RACK_UPDATE",
+  STATUS_CHANGE: "STATUS_CHANGE",
+};
+
+// User Roles
+const ROLES = {
+  OPERATOR: "Operator",
+  VIEWER: "Viewer",
+};
+
+// Permissions
+const PERMISSIONS = {
+  CREATE_MATERIAL: "create_material",
+  MOVE_TO_UNDER_TEST: "move_to_under_test",
+  APPROVE_REJECT_QC: "approve_reject_qc",
+  UPDATE_RACK: "update_rack",
+  DISPENSE: "dispense",
+  MANAGE_INVENTORY: "manage_inventory",
+  VIEW_ONLY: "view_only",
+};
+
+// Role-Permission Mapping
+const ROLE_PERMISSIONS = {
+  [ROLES.OPERATOR]: [
+    PERMISSIONS.CREATE_MATERIAL,
+    PERMISSIONS.MOVE_TO_UNDER_TEST,
+    PERMISSIONS.APPROVE_REJECT_QC,
+    PERMISSIONS.UPDATE_RACK,
+    PERMISSIONS.DISPENSE,
+    PERMISSIONS.MANAGE_INVENTORY,
+  ],
+  [ROLES.VIEWER]: [PERMISSIONS.VIEW_ONLY],
+};
+
+// Expiry Alert Days
+const EXPIRY_ALERT_DAYS = [30, 15, 7, 1];
+
+// FIFO/FEFO Options
+const DISPENSING_METHOD = {
+  FIFO: "FIFO", // First In First Out
+  FEFO: "FEFO", // First Expiry First Out
+};
+
+module.exports = {
+  MATERIAL_STATUS,
+  ACTION_TYPE,
+  ROLES,
+  PERMISSIONS,
+  ROLE_PERMISSIONS,
+  EXPIRY_ALERT_DAYS,
+  DISPENSING_METHOD,
+};
+
+
