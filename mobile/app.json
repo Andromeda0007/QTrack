@@ -16,7 +16,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.qtrack.app"
+      "bundleIdentifier": "com.qtrack.app",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +28,9 @@
       },
       "package": "com.qtrack.app",
       "permissions": [
-        "CAMERA"
+        "CAMERA",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ]
     },
     "web": {
@@ -38,7 +43,13 @@
           "cameraPermission": "Allow QTrack to access your camera to scan QR codes."
         }
       ],
-      "@react-native-community/datetimepicker"
-    ]
+      "@react-native-community/datetimepicker",
+      "expo-font"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8fe3ba32-2085-42ec-92f1-8189adafc3e3"
+      }
+    }
   }
 }
