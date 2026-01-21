@@ -87,9 +87,7 @@ const AppNavigator = () => {
     >
       <Tab.Screen name="Home" component={MainStack} />
       <Tab.Screen name="Scan" component={ScanScreen} />
-      {(isOperator || isAdmin) && (
-        <Tab.Screen name="Inventory" component={InventoryScreen} />
-      )}
+      <Tab.Screen name="Inventory" component={InventoryScreen} />
       {isAdmin && (
         <Tab.Screen name="Approvals" component={AdminApprovalScreen} />
       )}

@@ -33,6 +33,8 @@ const MaterialDetailScreen = () => {
   );
   const user = useSelector((state) => state.auth.user);
   const isOperator = user?.role === ROLES.OPERATOR;
+  const isAdmin = user?.role === ROLES.ADMIN;
+  const canPerformActions = isOperator || isAdmin;
 
   if (!currentMaterial) {
     return (
@@ -43,7 +45,7 @@ const MaterialDetailScreen = () => {
   }
 
   const handleAction = (action, params = {}) => {
-    if (!canEdit) {
+    if (!canPerformActions) {
       Alert.alert(
         "Access Denied",
         "You do not have permission to perform this action"
@@ -53,81 +55,68 @@ const MaterialDetailScreen = () => {
 
     switch (action) {
       case "sampling":
-        Alert.prompt(
-          "Add Comments",
-          "Enter any comments about the sampling:",
+        Alert.alert(
+          "Move to Under Test",
+          "Move this material to Under Test stage?",
           [
             { text: "Cancel", style: "cancel" },
             {
-              text: "Submit",
-              onPress: (comments) => {
+              text: "Yes, Move",
+              onPress: () => {
                 dispatch(
                   moveToUnderTest({
                     materialId: currentMaterial.material_id,
-                    comments,
+                    comments: "",
                   })
                 );
               },
             },
-          ],
-          "plain-text"
+          ]
         );
         break;
 
       case "approve":
-        Alert.prompt(
+        Alert.alert(
           "Approve Material",
-          "Enter retest date (YYYY-MM-DD) or leave empty:",
+          "Approve this material?",
           [
             { text: "Cancel", style: "cancel" },
             {
               text: "Approve",
-              onPress: (retestDate) => {
+              onPress: () => {
                 dispatch(
                   approveMaterial({
                     materialId: currentMaterial.material_id,
-                    retestDate,
+                    retestDate: "",
+                    comments: "",
                   })
                 );
               },
             },
-          ],
-          "plain-text"
+          ]
         );
         break;
 
       case "reject":
         Alert.prompt(
           "Reject Material",
-          "Rejection reason (mandatory):",
+          "Enter rejection reason:",
           [
             { text: "Cancel", style: "cancel" },
             {
               text: "Reject",
+              style: "destructive",
               onPress: (rejectionReason) => {
-                if (!rejectionReason) {
-                  Alert.alert("Error", "Rejection reason is mandatory");
+                if (!rejectionReason || rejectionReason.trim() === "") {
+                  Alert.alert("Error", "Rejection reason is required");
                   return;
                 }
-                Alert.prompt(
-                  "Add Comments",
-                  "Enter any additional comments:",
-                  [
-                    { text: "Cancel", style: "cancel" },
-                    {
-                      text: "Submit",
-                      onPress: (comments) => {
-                        dispatch(
-                          rejectMaterial({
-                            materialId: currentMaterial.material_id,
-                            rejectionReason,
-                            comments,
-                          })
-                        );
-                      },
-                    },
-                  ],
-                  "plain-text"
+                dispatch(
+                  rejectMaterial({
+                    materialId: currentMaterial.material_id,
+                    rejectionReason,
+                    comments: "",
+                  })
                 );
               },
             },
@@ -145,7 +134,7 @@ const MaterialDetailScreen = () => {
             {
               text: "Update",
               onPress: (rackNumber) => {
-                if (!rackNumber) {
+                if (!rackNumber || rackNumber.trim() === "") {
                   Alert.alert("Error", "Rack number is required");
                   return;
                 }
@@ -171,8 +160,13 @@ const MaterialDetailScreen = () => {
             {
               text: "Next",
               onPress: (quantity) => {
-                if (!quantity || isNaN(quantity)) {
-                  Alert.alert("Error", "Valid quantity is required");
+                const qty = parseFloat(quantity);
+                if (!quantity || isNaN(qty) || qty <= 0) {
+                  Alert.alert("Error", "Please enter a valid quantity");
+                  return;
+                }
+                if (qty > currentMaterial.remaining_quantity) {
+                  Alert.alert("Error", `Only ${currentMaterial.remaining_quantity} available`);
                   return;
                 }
                 Alert.prompt(
@@ -183,14 +177,14 @@ const MaterialDetailScreen = () => {
                     {
                       text: "Dispense",
                       onPress: (issuedToProductBatch) => {
-                        if (!issuedToProductBatch) {
-                          Alert.alert("Error", "Product/batch is required");
+                        if (!issuedToProductBatch || issuedToProductBatch.trim() === "") {
+                          Alert.alert("Error", "Product/batch name is required");
                           return;
                         }
                         dispatch(
                           dispenseMaterial({
                             materialId: currentMaterial.material_id,
-                            issuedQuantity: parseFloat(quantity),
+                            issuedQuantity: qty,
                             issuedToProductBatch,
                           })
                         );
@@ -211,13 +205,13 @@ const MaterialDetailScreen = () => {
   const getStatusColor = (status) => STATUS_COLORS[status] || COLORS.gray;
 
   const canMoveToUnderTest =
-    currentMaterial.current_status === MATERIAL_STATUS.QUARANTINE && canEdit;
+    currentMaterial.current_status === MATERIAL_STATUS.QUARANTINE && canPerformActions;
   const canApproveReject =
-    currentMaterial.current_status === MATERIAL_STATUS.UNDER_TEST && canEdit;
+    currentMaterial.current_status === MATERIAL_STATUS.UNDER_TEST && canPerformActions;
   const canUpdateRack =
-    currentMaterial.current_status === MATERIAL_STATUS.APPROVED && canEdit;
+    currentMaterial.current_status === MATERIAL_STATUS.APPROVED && canPerformActions;
   const canDispense =
-    currentMaterial.current_status === MATERIAL_STATUS.APPROVED && canEdit;
+    currentMaterial.current_status === MATERIAL_STATUS.APPROVED && canPerformActions;
 
   return (
     <ScrollView style={styles.container}>
@@ -312,8 +306,8 @@ const MaterialDetailScreen = () => {
         )}
       </View>
 
-      {/* Action Buttons (Operator only) */}
-      {canEdit && (
+      {/* Action Buttons (Operator/Admin only) */}
+      {canPerformActions && (
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Actions</Text>
 

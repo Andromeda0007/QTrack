@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/authSlice";
-import { COLORS } from "../config/constants";
+import { COLORS, ROLE_COLORS, ROLES } from "../config/constants";
 import { Ionicons } from "@expo/vector-icons";
 
 const ProfileScreen = () => {
@@ -32,16 +32,7 @@ const ProfileScreen = () => {
   };
 
   const getRoleBadgeColor = (role) => {
-    switch (role) {
-      case "Admin":
-        return COLORS.danger;
-      case "Operator":
-        return COLORS.primary;
-      case "Viewer":
-        return COLORS.info;
-      default:
-        return COLORS.gray;
-    }
+    return ROLE_COLORS[role] || COLORS.gray;
   };
 
   const InfoItem = ({ icon, label, value }) => (

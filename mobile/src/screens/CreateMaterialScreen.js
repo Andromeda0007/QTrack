@@ -167,158 +167,166 @@ const CreateMaterialScreen = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.form}>
-        <Text style={styles.label}>Item Code *</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.itemCode}
-          onChangeText={(value) => handleInputChange("itemCode", value)}
-          placeholder="Enter item code"
-        />
-
-        <Text style={styles.label}>Item Name *</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.itemName}
-          onChangeText={(value) => handleInputChange("itemName", value)}
-          placeholder="Enter item name"
-        />
-
-        <Text style={styles.label}>Batch/Lot Number *</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.batchLotNumber}
-          onChangeText={(value) => handleInputChange("batchLotNumber", value)}
-          placeholder="Enter batch/lot number"
-          autoCapitalize="characters"
-          returnKeyType="next"
-        />
-
-        <Text style={styles.label}>GRN Number *</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.grnNumber}
-          onChangeText={(value) => handleInputChange("grnNumber", value)}
-          placeholder="Enter GRN number"
-          autoCapitalize="characters"
-          returnKeyType="next"
-        />
-
-        <Text style={styles.label}>Received Total Quantity *</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.receivedTotalQuantity}
-          onChangeText={(value) =>
-            handleInputChange("receivedTotalQuantity", value)
-          }
-          placeholder="Enter total quantity"
-          keyboardType="numeric"
-        />
-
-        <Text style={styles.label}>Container/Bag/Drum Quantity *</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.containerQuantity}
-          onChangeText={(value) =>
-            handleInputChange("containerQuantity", value)
-          }
-          placeholder="Enter container quantity"
-          keyboardType="numeric"
-        />
-
-        <Text style={styles.label}>Supplier Name *</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.supplierName}
-          onChangeText={(value) => handleInputChange("supplierName", value)}
-          placeholder="Enter supplier name"
-        />
-
-        <Text style={styles.label}>Manufacturer Name *</Text>
-        <TextInput
-          style={styles.input}
-          value={formData.manufacturerName}
-          onChangeText={(value) => handleInputChange("manufacturerName", value)}
-          placeholder="Enter manufacturer name"
-        />
-
-        <Text style={styles.label}>Date of Receipt *</Text>
-        <TouchableOpacity
-          style={styles.dateButton}
-          onPress={() =>
-            setShowDatePicker((prev) => ({ ...prev, receipt: true }))
-          }
-        >
-          <Text style={styles.dateText}>
-            {formData.dateOfReceipt.toLocaleDateString()}
-          </Text>
-        </TouchableOpacity>
-
-        <Text style={styles.label}>Manufacturing Date (Optional)</Text>
-        <TouchableOpacity
-          style={styles.dateButton}
-          onPress={() => setShowDatePicker((prev) => ({ ...prev, mfg: true }))}
-        >
-          <Text style={styles.dateText}>
-            {formData.mfgDate
-              ? formData.mfgDate.toLocaleDateString()
-              : "Select date"}
-          </Text>
-        </TouchableOpacity>
-
-        <Text style={styles.label}>Expiry Date (Optional)</Text>
-        <TouchableOpacity
-          style={styles.dateButton}
-          onPress={() => setShowDatePicker((prev) => ({ ...prev, exp: true }))}
-        >
-          <Text style={styles.dateText}>
-            {formData.expDate
-              ? formData.expDate.toLocaleDateString()
-              : "Select date"}
-          </Text>
-        </TouchableOpacity>
-
-        {showDatePicker.receipt && (
-          <DateTimePicker
-            value={formData.dateOfReceipt}
-            mode="date"
-            display="spinner"
-            onChange={(event, date) => handleDateChange("dateOfReceipt", "receipt", event, date)}
+          <Text style={styles.label}>Item Code</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.itemCode}
+            onChangeText={(value) => handleInputChange("itemCode", value)}
+            placeholder="Enter item code"
+            placeholderTextColor={COLORS.gray}
           />
-        )}
 
-        {showDatePicker.mfg && (
-          <DateTimePicker
-            value={formData.mfgDate || new Date()}
-            mode="date"
-            display="spinner"
-            onChange={(event, date) => handleDateChange("mfgDate", "mfg", event, date)}
+          <Text style={styles.label}>Item Name</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.itemName}
+            onChangeText={(value) => handleInputChange("itemName", value)}
+            placeholder="Enter item name"
+            placeholderTextColor={COLORS.gray}
           />
-        )}
 
-        {showDatePicker.exp && (
-          <DateTimePicker
-            value={formData.expDate || new Date()}
-            mode="date"
-            display="spinner"
-            onChange={(event, date) => handleDateChange("expDate", "exp", event, date)}
+          <Text style={styles.label}>Batch/Lot Number</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.batchLotNumber}
+            onChangeText={(value) => handleInputChange("batchLotNumber", value)}
+            placeholder="Enter batch/lot number"
+            placeholderTextColor={COLORS.gray}
+            autoCapitalize="characters"
+            returnKeyType="next"
           />
-        )}
 
-        <TouchableOpacity
-          style={[styles.submitButton, loading && styles.submitButtonDisabled]}
-          onPress={handleSubmit}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color={COLORS.white} />
-          ) : (
-            <Text style={styles.submitButtonText}>
-              Create Material & Generate QR
+          <Text style={styles.label}>GRN Number</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.grnNumber}
+            onChangeText={(value) => handleInputChange("grnNumber", value)}
+            placeholder="Enter GRN number"
+            placeholderTextColor={COLORS.gray}
+            autoCapitalize="characters"
+            returnKeyType="next"
+          />
+
+          <Text style={styles.label}>Received Total Quantity</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.receivedTotalQuantity}
+            onChangeText={(value) =>
+              handleInputChange("receivedTotalQuantity", value)
+            }
+            placeholder="Enter total quantity"
+            placeholderTextColor={COLORS.gray}
+            keyboardType="numeric"
+          />
+
+          <Text style={styles.label}>Container/Bag/Drum Quantity</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.containerQuantity}
+            onChangeText={(value) =>
+              handleInputChange("containerQuantity", value)
+            }
+            placeholder="Enter container quantity"
+            placeholderTextColor={COLORS.gray}
+            keyboardType="numeric"
+          />
+
+          <Text style={styles.label}>Supplier Name</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.supplierName}
+            onChangeText={(value) => handleInputChange("supplierName", value)}
+            placeholder="Enter supplier name"
+            placeholderTextColor={COLORS.gray}
+          />
+
+          <Text style={styles.label}>Manufacturer Name</Text>
+          <TextInput
+            style={styles.input}
+            value={formData.manufacturerName}
+            onChangeText={(value) => handleInputChange("manufacturerName", value)}
+            placeholder="Enter manufacturer name"
+            placeholderTextColor={COLORS.gray}
+          />
+
+          <Text style={styles.label}>Date of Receipt</Text>
+          <TouchableOpacity
+            style={styles.dateButton}
+            onPress={() =>
+              setShowDatePicker((prev) => ({ ...prev, receipt: true }))
+            }
+          >
+            <Text style={styles.dateText}>
+              {formData.dateOfReceipt.toLocaleDateString()}
             </Text>
+          </TouchableOpacity>
+
+          <Text style={styles.label}>Manufacturing Date</Text>
+          <TouchableOpacity
+            style={styles.dateButton}
+            onPress={() => setShowDatePicker((prev) => ({ ...prev, mfg: true }))}
+          >
+            <Text style={[styles.dateText, !formData.mfgDate && styles.placeholderText]}>
+              {formData.mfgDate
+                ? formData.mfgDate.toLocaleDateString()
+                : "Select date (optional)"}
+            </Text>
+          </TouchableOpacity>
+
+          <Text style={styles.label}>Expiry Date</Text>
+          <TouchableOpacity
+            style={styles.dateButton}
+            onPress={() => setShowDatePicker((prev) => ({ ...prev, exp: true }))}
+          >
+            <Text style={[styles.dateText, !formData.expDate && styles.placeholderText]}>
+              {formData.expDate
+                ? formData.expDate.toLocaleDateString()
+                : "Select date (optional)"}
+            </Text>
+          </TouchableOpacity>
+
+          {showDatePicker.receipt && (
+            <DateTimePicker
+              value={formData.dateOfReceipt}
+              mode="date"
+              display="default"
+              onChange={(event, date) => handleDateChange("dateOfReceipt", "receipt", event, date)}
+            />
           )}
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+
+          {showDatePicker.mfg && (
+            <DateTimePicker
+              value={formData.mfgDate || new Date()}
+              mode="date"
+              display="default"
+              onChange={(event, date) => handleDateChange("mfgDate", "mfg", event, date)}
+            />
+          )}
+
+          {showDatePicker.exp && (
+            <DateTimePicker
+              value={formData.expDate || new Date()}
+              mode="date"
+              display="default"
+              onChange={(event, date) => handleDateChange("expDate", "exp", event, date)}
+            />
+          )}
+
+          <TouchableOpacity
+            style={[styles.submitButton, loading && styles.submitButtonDisabled]}
+            onPress={handleSubmit}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color={COLORS.white} />
+            ) : (
+              <Text style={styles.submitButtonText}>
+                Create Material & Generate QR
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
@@ -336,13 +344,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: COLORS.dark,
     marginTop: 15,
-    marginBottom: 5,
+    marginBottom: 8,
   },
   input: {
     backgroundColor: COLORS.white,
     borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    fontSize: 15,
     borderWidth: 1,
     borderColor: "#E0E0E0",
     color: COLORS.dark,
@@ -350,19 +359,24 @@ const styles = StyleSheet.create({
   dateButton: {
     backgroundColor: COLORS.white,
     borderRadius: 8,
-    padding: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     borderWidth: 1,
-    borderColor: COLORS.light,
+    borderColor: "#E0E0E0",
   },
   dateText: {
-    fontSize: 16,
+    fontSize: 15,
     color: COLORS.dark,
+  },
+  placeholderText: {
+    color: COLORS.gray,
   },
   submitButton: {
     backgroundColor: COLORS.primary,
     borderRadius: 8,
-    padding: 15,
+    paddingVertical: 16,
     alignItems: "center",
+    justifyContent: "center",
     marginTop: 30,
     marginBottom: 20,
   },
@@ -372,7 +386,7 @@ const styles = StyleSheet.create({
   submitButtonText: {
     color: COLORS.white,
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "bold",
   },
 });
 

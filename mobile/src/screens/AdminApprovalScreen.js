@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import api from "../config/api";
-import { API_ENDPOINTS, COLORS } from "../config/constants";
+import { API_ENDPOINTS, COLORS, ROLE_COLORS } from "../config/constants";
 
 export default function AdminApprovalScreen() {
   const [pendingUsers, setPendingUsers] = useState([]);
@@ -103,16 +103,7 @@ export default function AdminApprovalScreen() {
   };
 
   const getRoleColor = (roleName) => {
-    switch (roleName) {
-      case "Admin":
-        return COLORS.danger;
-      case "Operator":
-        return COLORS.primary;
-      case "Viewer":
-        return COLORS.info;
-      default:
-        return COLORS.gray;
-    }
+    return ROLE_COLORS[roleName] || COLORS.gray;
   };
 
   const renderUserItem = ({ item }) => {

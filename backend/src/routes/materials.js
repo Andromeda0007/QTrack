@@ -168,6 +168,48 @@ router.post(
 );
 
 /**
+ * GET /api/materials
+ * Get all materials (with optional filters)
+ */
+router.get(
+  "/",
+  authenticate,
+  canView,
+  async (req, res) => {
+    try {
+      const { status, limit = 100, offset = 0 } = req.query;
+      
+      let query = `
+        SELECT m.*, 
+               u.full_name as created_by_name
+        FROM materials m
+        LEFT JOIN users u ON m.created_by_user_id = u.user_id
+      `;
+      
+      const params = [];
+      
+      if (status) {
+        query += ` WHERE m.current_status = $1`;
+        params.push(status);
+      }
+      
+      query += ` ORDER BY m.created_at DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+      params.push(parseInt(limit), parseInt(offset));
+
+      const result = await pool.query(query, params);
+
+      res.json({
+        materials: result.rows,
+        count: result.rows.length,
+      });
+    } catch (error) {
+      console.error("Get materials error:", error);
+      res.status(500).json({ error: "Failed to fetch materials" });
+    }
+  }
+);
+
+/**
  * GET /api/materials/scan/:qrCode
  * Scan QR code and get material details
  */

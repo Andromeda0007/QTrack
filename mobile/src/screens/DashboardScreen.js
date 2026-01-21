@@ -11,7 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
-import { COLORS, ROLES } from "../config/constants";
+import { COLORS, ROLES, ROLE_COLORS } from "../config/constants";
 
 const DashboardScreen = () => {
   const navigation = useNavigation();
@@ -20,16 +20,7 @@ const DashboardScreen = () => {
   const isAdmin = user?.role === ROLES.ADMIN;
 
   const getRoleBadgeColor = (role) => {
-    switch (role) {
-      case "Admin":
-        return COLORS.danger;
-      case "Operator":
-        return COLORS.primary;
-      case "Viewer":
-        return COLORS.info;
-      default:
-        return COLORS.gray;
-    }
+    return ROLE_COLORS[role] || COLORS.gray;
   };
 
   return (
@@ -77,20 +68,18 @@ const DashboardScreen = () => {
           </TouchableOpacity>
         )}
 
-        {(isOperator || isAdmin) && (
-          <TouchableOpacity
-            style={styles.actionCard}
-            onPress={() => navigation.navigate("Inventory")}
-          >
-            <View style={[styles.iconContainer, { backgroundColor: COLORS.info + "20" }]}>
-              <Ionicons name="cube-outline" size={40} color={COLORS.info} />
-            </View>
-            <View style={styles.actionContent}>
-              <Text style={styles.actionText}>Inventory</Text>
-              <Text style={styles.actionSubtext}>View inventory details</Text>
-            </View>
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity
+          style={styles.actionCard}
+          onPress={() => navigation.navigate("Inventory")}
+        >
+          <View style={[styles.iconContainer, { backgroundColor: COLORS.info + "20" }]}>
+            <Ionicons name="cube-outline" size={40} color={COLORS.info} />
+          </View>
+          <View style={styles.actionContent}>
+            <Text style={styles.actionText}>Inventory</Text>
+            <Text style={styles.actionSubtext}>View inventory details</Text>
+          </View>
+        </TouchableOpacity>
 
         {isAdmin && (
           <TouchableOpacity
