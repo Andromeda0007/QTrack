@@ -1,12 +1,12 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// API Base URL - Update this to your backend URL
-// For physical device: use your computer's IP address
-// For emulator: localhost works fine
-const API_BASE_URL = __DEV__
-  ? "http://172.20.10.3:3000/api" // Your IP address
-  : "https://your-production-api.com/api";
+// API Base URL
+// Prefer EXPO_PUBLIC_API_BASE_URL so both Expo Go and APK use the same backend.
+// Fallback keeps the current local dev IP for quick testing.
+const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_BASE_URL ||
+  "http://172.20.10.3:3000/api";
 
 // Create axios instance
 const api = axios.create({

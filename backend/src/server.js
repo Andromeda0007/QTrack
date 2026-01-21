@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 3000;
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:19006",
+    origin: process.env.CORS_ORIGIN || "*",
     credentials: true,
   })
 );
@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
 // Start server
 app.listen(PORT, () => {
   console.log(`QTrack Backend Server running on port ${PORT}`);
-  console.log(`📱 Environment: ${process.env.NODE_ENV || "development"}`);
+  console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
 });
 
 module.exports = app;
