@@ -1,4 +1,4 @@
-## Checklist
+ Checklist
 
 # Development Environment Setup
 - Prerequisites installation (Node.js, PostgreSQL, Git, etc.)
