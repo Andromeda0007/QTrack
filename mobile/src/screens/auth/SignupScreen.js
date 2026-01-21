@@ -19,7 +19,7 @@ export default function SignupScreen({ navigation }) {
     password: "",
     confirmPassword: "",
     fullName: "",
-    roleId: "1", // Default to Operator
+    roleId: "2", // Default to Viewer (lower privilege)
   });
   const [loading, setLoading] = useState(false);
 

@@ -23,7 +23,7 @@ const MainStack = () => {
       <Stack.Screen
         name="Dashboard"
         component={DashboardScreen}
-        options={{ title: "QTrack" }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Scan"

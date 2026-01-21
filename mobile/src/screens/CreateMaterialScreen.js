@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
@@ -44,10 +46,11 @@ const CreateMaterialScreen = () => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleDateChange = (field, event, selectedDate) => {
-    setShowDatePicker((prev) => ({ ...prev, [field]: false }));
-    if (selectedDate) {
-      setFormData((prev) => ({ ...prev, [field]: selectedDate }));
+  const handleDateChange = (fieldName, pickerName, event, selectedDate) => {
+    setShowDatePicker((prev) => ({ ...prev, [pickerName]: false }));
+    
+    if (event.type === "set" && selectedDate) {
+      setFormData((prev) => ({ ...prev, [fieldName]: selectedDate }));
     }
   };
 
@@ -155,8 +158,15 @@ const CreateMaterialScreen = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.form}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <ScrollView 
+        style={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
+        <View style={styles.form}>
         <Text style={styles.label}>Item Code *</Text>
         <TextInput
           style={styles.input}
@@ -179,6 +189,8 @@ const CreateMaterialScreen = () => {
           value={formData.batchLotNumber}
           onChangeText={(value) => handleInputChange("batchLotNumber", value)}
           placeholder="Enter batch/lot number"
+          autoCapitalize="characters"
+          returnKeyType="next"
         />
 
         <Text style={styles.label}>GRN Number *</Text>
@@ -187,6 +199,8 @@ const CreateMaterialScreen = () => {
           value={formData.grnNumber}
           onChangeText={(value) => handleInputChange("grnNumber", value)}
           placeholder="Enter GRN number"
+          autoCapitalize="characters"
+          returnKeyType="next"
         />
 
         <Text style={styles.label}>Received Total Quantity *</Text>
@@ -267,8 +281,8 @@ const CreateMaterialScreen = () => {
           <DateTimePicker
             value={formData.dateOfReceipt}
             mode="date"
-            display="default"
-            onChange={(event, date) => handleDateChange("receipt", event, date)}
+            display="spinner"
+            onChange={(event, date) => handleDateChange("dateOfReceipt", "receipt", event, date)}
           />
         )}
 
@@ -276,8 +290,8 @@ const CreateMaterialScreen = () => {
           <DateTimePicker
             value={formData.mfgDate || new Date()}
             mode="date"
-            display="default"
-            onChange={(event, date) => handleDateChange("mfg", event, date)}
+            display="spinner"
+            onChange={(event, date) => handleDateChange("mfgDate", "mfg", event, date)}
           />
         )}
 
@@ -285,8 +299,8 @@ const CreateMaterialScreen = () => {
           <DateTimePicker
             value={formData.expDate || new Date()}
             mode="date"
-            display="default"
-            onChange={(event, date) => handleDateChange("exp", event, date)}
+            display="spinner"
+            onChange={(event, date) => handleDateChange("expDate", "exp", event, date)}
           />
         )}
 
@@ -305,6 +319,7 @@ const CreateMaterialScreen = () => {
         </TouchableOpacity>
       </View>
     </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -329,7 +344,8 @@ const styles = StyleSheet.create({
     padding: 12,
     fontSize: 16,
     borderWidth: 1,
-    borderColor: COLORS.light,
+    borderColor: "#E0E0E0",
+    color: COLORS.dark,
   },
   dateButton: {
     backgroundColor: COLORS.white,

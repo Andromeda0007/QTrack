@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   RefreshControl,
+  SafeAreaView,
 } from "react-native";
 import { useSelector } from "react-redux";
 import api from "../config/api";
@@ -50,12 +51,13 @@ const InventoryScreen = () => {
   };
 
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={loading} onRefresh={loadExpiryAlerts} />
-      }
-    >
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={loadExpiryAlerts} />
+        }
+      >
       <View style={styles.header}>
         <Text style={styles.title}>Inventory Management</Text>
         <Text style={styles.subtitle}>Expiry Alerts (Next 30 Days)</Text>
@@ -112,17 +114,24 @@ const InventoryScreen = () => {
         })
       )}
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+  },
   container: {
     flex: 1,
     backgroundColor: COLORS.light,
   },
   header: {
     backgroundColor: COLORS.white,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 20,
     marginBottom: 15,
   },
   title: {
