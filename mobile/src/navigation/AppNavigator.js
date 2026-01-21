@@ -11,6 +11,7 @@ import MaterialDetailScreen from "../screens/MaterialDetailScreen";
 import CreateMaterialScreen from "../screens/CreateMaterialScreen";
 import InventoryScreen from "../screens/InventoryScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import AdminApprovalScreen from "../screens/AdminApprovalScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -44,6 +45,11 @@ const MainStack = () => {
         component={InventoryScreen}
         options={{ title: "Inventory" }}
       />
+      <Stack.Screen
+        name="AdminApprovals"
+        component={AdminApprovalScreen}
+        options={{ title: "User Approvals" }}
+      />
     </Stack.Navigator>
   );
 };
@@ -52,6 +58,7 @@ const MainStack = () => {
 const AppNavigator = () => {
   const user = useSelector((state) => state.auth.user);
   const isOperator = user?.role === "Operator";
+  const isAdmin = user?.role === "Admin";
 
   return (
     <Tab.Navigator
@@ -65,6 +72,8 @@ const AppNavigator = () => {
             iconName = focused ? "qr-code" : "qr-code-outline";
           } else if (route.name === "Inventory") {
             iconName = focused ? "cube" : "cube-outline";
+          } else if (route.name === "Approvals") {
+            iconName = focused ? "checkmark-circle" : "checkmark-circle-outline";
           } else if (route.name === "Profile") {
             iconName = focused ? "person" : "person-outline";
           }
@@ -78,8 +87,11 @@ const AppNavigator = () => {
     >
       <Tab.Screen name="Home" component={MainStack} />
       <Tab.Screen name="Scan" component={ScanScreen} />
-      {isOperator && (
+      {(isOperator || isAdmin) && (
         <Tab.Screen name="Inventory" component={InventoryScreen} />
+      )}
+      {isAdmin && (
+        <Tab.Screen name="Approvals" component={AdminApprovalScreen} />
       )}
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

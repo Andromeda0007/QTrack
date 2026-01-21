@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, clearError } from "../../store/authSlice";
 import { COLORS } from "../../config/constants";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const LoginScreen = () => {
     >
       <View style={styles.content}>
         <Text style={styles.title}>QTrack</Text>
-        <Text style={styles.subtitle}>Warehouse Management System</Text>
+        <Text style={styles.subtitle}>Warehouse & Material Tracking</Text>
 
         <View style={styles.form}>
           <TextInput
@@ -78,6 +78,16 @@ const LoginScreen = () => {
             ) : (
               <Text style={styles.buttonText}>Login</Text>
             )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.linkButton}
+            onPress={() => navigation.navigate("Signup")}
+          >
+            <Text style={styles.linkText}>
+              Don't have an account?{" "}
+              <Text style={styles.linkBold}>Sign Up</Text>
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -132,6 +142,18 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 16,
     fontWeight: "600",
+  },
+  linkButton: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  linkText: {
+    fontSize: 14,
+    color: COLORS.gray,
+  },
+  linkBold: {
+    color: COLORS.primary,
+    fontWeight: "bold",
   },
 });
 

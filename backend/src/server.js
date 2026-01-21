@@ -7,6 +7,7 @@ const authRoutes = require("./routes/auth");
 const materialsRoutes = require("./routes/materials");
 const inventoryRoutes = require("./routes/inventory");
 const dispensingRoutes = require("./routes/dispensing");
+const usersRoutes = require("./routes/users");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,7 @@ app.get("/health", (req, res) => {
 
 // API Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", usersRoutes);
 app.use("/api/materials", materialsRoutes);
 app.use("/api/inventory", inventoryRoutes);
 app.use("/api/materials", dispensingRoutes);

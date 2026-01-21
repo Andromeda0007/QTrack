@@ -18,11 +18,14 @@ CREATE TABLE roles (
 -- Insert default roles
 INSERT INTO roles (role_name, description) VALUES
 ('Operator', 'Full permissions: create, edit, move stages, approve/reject, dispense'),
-('Viewer', 'Read-only access: scan QR, view details, view history');
+('Viewer', 'Read-only access: scan QR, view details, view history'),
+('Admin', 'Administrative access: manage users, approve accounts, full system access');
 
 -- ============================================
 -- USERS TABLE
 -- ============================================
+CREATE TYPE account_status AS ENUM ('PENDING', 'APPROVED', 'REJECTED');
+
 CREATE TABLE users (
     user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(100) UNIQUE NOT NULL,
@@ -30,6 +33,7 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     role_id INTEGER NOT NULL REFERENCES roles(role_id),
+    account_status account_status DEFAULT 'PENDING',
     is_active BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

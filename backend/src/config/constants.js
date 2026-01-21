@@ -23,6 +23,14 @@ const ACTION_TYPE = {
 const ROLES = {
   OPERATOR: "Operator",
   VIEWER: "Viewer",
+  ADMIN: "Admin",
+};
+
+// Account Status
+const ACCOUNT_STATUS = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
 };
 
 // Permissions
@@ -33,6 +41,8 @@ const PERMISSIONS = {
   UPDATE_RACK: "update_rack",
   DISPENSE: "dispense",
   MANAGE_INVENTORY: "manage_inventory",
+  MANAGE_USERS: "manage_users",
+  APPROVE_ACCOUNTS: "approve_accounts",
   VIEW_ONLY: "view_only",
 };
 
@@ -47,6 +57,16 @@ const ROLE_PERMISSIONS = {
     PERMISSIONS.MANAGE_INVENTORY,
   ],
   [ROLES.VIEWER]: [PERMISSIONS.VIEW_ONLY],
+  [ROLES.ADMIN]: [
+    PERMISSIONS.CREATE_MATERIAL,
+    PERMISSIONS.MOVE_TO_UNDER_TEST,
+    PERMISSIONS.APPROVE_REJECT_QC,
+    PERMISSIONS.UPDATE_RACK,
+    PERMISSIONS.DISPENSE,
+    PERMISSIONS.MANAGE_INVENTORY,
+    PERMISSIONS.MANAGE_USERS,
+    PERMISSIONS.APPROVE_ACCOUNTS,
+  ],
 };
 
 // Expiry Alert Days
@@ -62,6 +82,7 @@ module.exports = {
   MATERIAL_STATUS,
   ACTION_TYPE,
   ROLES,
+  ACCOUNT_STATUS,
   PERMISSIONS,
   ROLE_PERMISSIONS,
   EXPIRY_ALERT_DAYS,

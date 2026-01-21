@@ -11,13 +11,28 @@ export const MATERIAL_STATUS = {
 export const ROLES = {
   OPERATOR: "Operator",
   VIEWER: "Viewer",
+  ADMIN: "Admin",
+};
+
+// Account Status
+export const ACCOUNT_STATUS = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+  REJECTED: "REJECTED",
 };
 
 // API Endpoints
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
+    REGISTER: "/auth/register",
     ME: "/auth/me",
+  },
+  USERS: {
+    PENDING: "/users/pending",
+    APPROVE: "/users",
+    REJECT: "/users",
+    LIST: "/users",
   },
   MATERIALS: {
     CREATE: "/materials/create",
