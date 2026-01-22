@@ -52,10 +52,20 @@ const InventoryScreen = () => {
 
   const getStatusBackgroundColor = (status) => {
     const color = STATUS_COLORS[status] || COLORS.gray;
-    return color + "20"; // Add 20% opacity
+    return color + "1A"; // Add 10% opacity for material cards
+  };
+
+  const getStatusBorderColor = (status) => {
+    const color = STATUS_COLORS[status] || COLORS.gray;
+    return color + "4D"; // Add 30% opacity for softer border
   };
 
   const getStatusColor = (status) => STATUS_COLORS[status] || COLORS.gray;
+
+  const getStatusIconBackground = (status) => {
+    const color = STATUS_COLORS[status] || COLORS.gray;
+    return color + "20"; // Add 20% opacity for light icon background
+  };
 
   const handleStagePress = (stage) => {
     setSelectedStage(stage);
@@ -78,7 +88,7 @@ const InventoryScreen = () => {
 
   const stages = [
     { key: MATERIAL_STATUS.QUARANTINE, label: "Quarantine", icon: "warning" },
-    { key: MATERIAL_STATUS.UNDER_TEST, label: "Under Test", icon: "flask" },
+    { key: MATERIAL_STATUS.UNDER_TEST, label: "Testing", icon: "flask" },
     { key: MATERIAL_STATUS.APPROVED, label: "Approved", icon: "checkmark-circle" },
     { key: MATERIAL_STATUS.REJECTED, label: "Rejected", icon: "close-circle" },
     { key: MATERIAL_STATUS.DISPENSED, label: "Dispensed", icon: "send" },
@@ -106,17 +116,18 @@ const InventoryScreen = () => {
               return (
                 <TouchableOpacity
                   key={stage.key}
-                  style={[
-                    styles.stageBox,
-                    { backgroundColor: getStatusBackgroundColor(stage.key) }
-                  ]}
+                  style={styles.stageBox}
                   onPress={() => handleStagePress(stage.key)}
                 >
-                  <View style={[styles.stageIconContainer, { backgroundColor: getStatusColor(stage.key) }]}>
-                    <Ionicons name={stage.icon} size={32} color={COLORS.white} />
+                  <View style={styles.stageLeft}>
+                    <View style={[styles.stageIconContainer, { backgroundColor: getStatusIconBackground(stage.key) }]}>
+                      <Ionicons name={stage.icon} size={32} color={getStatusColor(stage.key)} />
+                    </View>
+                    <Text style={styles.stageLabel}>{stage.label}</Text>
                   </View>
-                  <Text style={styles.stageLabel}>{stage.label}</Text>
-                  <Text style={styles.stageCount}>{count} {count === 1 ? "Material" : "Materials"}</Text>
+                  <View style={[styles.countBadge, { backgroundColor: getStatusIconBackground(stage.key) }]}>
+                    <Text style={[styles.countBadgeText, { color: getStatusColor(stage.key) }]}>{count}</Text>
+                  </View>
                 </TouchableOpacity>
               );
             })}
@@ -146,8 +157,8 @@ const InventoryScreen = () => {
         }
       >
         <View style={styles.stageHeader}>
-          <View style={[styles.stageIconContainer, { backgroundColor: getStatusColor(selectedStage) }]}>
-            <Ionicons name={stageInfo.icon} size={28} color={COLORS.white} />
+          <View style={[styles.stageIconContainer, { backgroundColor: getStatusIconBackground(selectedStage) }]}>
+            <Ionicons name={stageInfo.icon} size={28} color={getStatusColor(selectedStage)} />
           </View>
           <View style={styles.stageHeaderText}>
             <Text style={styles.stageTitle}>{stageInfo.label}</Text>
@@ -168,7 +179,10 @@ const InventoryScreen = () => {
                 key={material.material_id}
                 style={[
                   styles.materialCard,
-                  { backgroundColor: getStatusBackgroundColor(material.current_status) }
+                  { 
+                    backgroundColor: getStatusBackgroundColor(material.current_status),
+                    borderColor: getStatusBorderColor(material.current_status),
+                  }
                 ]}
                 onPress={() => handleMaterialPress(material)}
               >
@@ -226,7 +240,10 @@ const InventoryScreen = () => {
                 </View>
 
                 <View style={styles.cardFooter}>
-                  <Text style={styles.tapHint}>Tap to view details & take actions</Text>
+                  <View style={styles.actionButton}>
+                    <Text style={styles.actionButtonText}>View Item & Take Action</Text>
+                    <Ionicons name="arrow-forward" size={16} color={COLORS.white} />
+                  </View>
                 </View>
               </TouchableOpacity>
             );
@@ -274,18 +291,27 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   stagesContainer: {
-    padding: 10,
+    padding: 20,
+    marginTop: 10,
   },
   stageBox: {
-    marginHorizontal: 10,
-    marginVertical: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: COLORS.white,
+    marginBottom: 15,
     padding: 20,
     borderRadius: 16,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 6,
     elevation: 3,
+  },
+  stageLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
   },
   stageIconContainer: {
     width: 60,
@@ -293,39 +319,46 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 12,
+    marginRight: 15,
   },
   stageLabel: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     color: COLORS.dark,
-    marginBottom: 5,
+    flex: 1,
   },
-  stageCount: {
-    fontSize: 16,
-    color: COLORS.gray,
-    fontWeight: "500",
+  countBadge: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  countBadgeText: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
   stageHeader: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: COLORS.white,
-    padding: 15,
-    marginHorizontal: 15,
-    marginBottom: 10,
+    padding: 10,
+    marginHorizontal: 12,
+    marginTop: 15,
+    marginBottom: 8,
     borderRadius: 12,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 3,
   },
   stageHeaderText: {
     marginLeft: 15,
     flex: 1,
   },
   stageTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     color: COLORS.dark,
     marginBottom: 3,
@@ -344,14 +377,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   materialCard: {
-    marginHorizontal: 15,
-    marginVertical: 8,
-    padding: 16,
+    marginHorizontal: 12,
+    marginVertical: 10,
+    padding: 14,
     borderRadius: 12,
+    borderWidth: 1.5,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 6,
     elevation: 3,
   },
   cardHeader: {
@@ -366,14 +400,14 @@ const styles = StyleSheet.create({
   },
   materialName: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "700",
     color: COLORS.dark,
     marginBottom: 3,
   },
   itemCode: {
     fontSize: 14,
-    color: COLORS.gray,
-    fontWeight: "500",
+    color: COLORS.dark,
+    fontWeight: "600",
   },
   statusBadge: {
     paddingHorizontal: 12,
@@ -382,8 +416,8 @@ const styles = StyleSheet.create({
   },
   statusText: {
     color: COLORS.white,
-    fontWeight: "bold",
-    fontSize: 11,
+    fontWeight: "700",
+    fontSize: 12,
   },
   cardContent: {
     marginBottom: 12,
@@ -394,32 +428,49 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   infoLabel: {
-    fontSize: 13,
-    color: COLORS.gray,
+    fontSize: 14,
+    color: COLORS.dark,
     fontWeight: "600",
     flex: 1,
   },
   infoValue: {
-    fontSize: 13,
+    fontSize: 14,
     color: COLORS.dark,
-    fontWeight: "500",
+    fontWeight: "600",
     flex: 1,
     textAlign: "right",
   },
   qtyHighlight: {
     color: COLORS.primary,
-    fontWeight: "bold",
+    fontWeight: "700",
   },
   cardFooter: {
     borderTopWidth: 1,
     borderTopColor: "rgba(0,0,0,0.1)",
-    paddingTop: 10,
+    paddingTop: 12,
+    paddingBottom: 4,
     alignItems: "center",
   },
-  tapHint: {
-    fontSize: 12,
-    color: COLORS.gray,
-    fontStyle: "italic",
+  actionButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#007AFFD9",
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 8,
+    gap: 8,
+    shadowColor: COLORS.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  actionButtonText: {
+    fontSize: 13,
+    color: COLORS.white,
+    fontWeight: "700",
+    letterSpacing: 0.3,
   },
 });
 

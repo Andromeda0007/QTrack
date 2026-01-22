@@ -176,6 +176,11 @@ const materialSlice = createSlice({
   name: "materials",
   initialState,
   reducers: {
+    setCurrentMaterial: (state, action) => {
+      state.currentMaterial = action.payload.material;
+      state.history = action.payload.history || [];
+      state.canEdit = action.payload.canEdit || false;
+    },
     clearCurrentMaterial: (state) => {
       state.currentMaterial = null;
       state.history = [];
@@ -274,6 +279,6 @@ const materialSlice = createSlice({
   },
 });
 
-export const { clearCurrentMaterial, clearError } = materialSlice.actions;
+export const { setCurrentMaterial, clearCurrentMaterial, clearError } = materialSlice.actions;
 export default materialSlice.reducer;
 

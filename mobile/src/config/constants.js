@@ -65,7 +65,7 @@ export const COLORS = {
   dark: "#1C1C1E",
   white: "#FFFFFF",
   black: "#000000",
-  gray: "#8E8E93",
+  gray: "#3E3E43",
   purple: "#9B59B6",
   teal: "#16A085",
 };
@@ -79,10 +79,10 @@ export const ROLE_COLORS = {
 
 // Status Colors
 export const STATUS_COLORS = {
-  [MATERIAL_STATUS.QUARANTINE]: "#FF9500",
-  [MATERIAL_STATUS.UNDER_TEST]: "#5AC8FA",
+  [MATERIAL_STATUS.QUARANTINE]: "#FFA726",
+  [MATERIAL_STATUS.UNDER_TEST]: "#7E57C2",
   [MATERIAL_STATUS.APPROVED]: "#34C759",
   [MATERIAL_STATUS.REJECTED]: "#FF3B30",
-  [MATERIAL_STATUS.DISPENSED]: "#8E8E93",
+  [MATERIAL_STATUS.DISPENSED]: "#3E3E43",
 };
 
